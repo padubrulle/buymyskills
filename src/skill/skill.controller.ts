@@ -1,9 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SkillService } from './skill.service';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
+import { Skill } from './entities/skill.entity';
 
-@Controller('skill')
+@Controller('skills')
 export class SkillController {
   constructor(private readonly skillService: SkillService) {}
 
@@ -13,7 +22,7 @@ export class SkillController {
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Skill[]> {
     return this.skillService.findAll();
   }
 
