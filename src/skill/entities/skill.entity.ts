@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn, OneToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
+import { Entity, Column, PrimaryColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('skill')
 export class Skill {
@@ -20,4 +21,10 @@ export class Skill {
 
   @Column({nullable:true})
   img_url: string;
+
+  @Column({nullable:true})
+  categoryId: number;
+
+  @ManyToOne(() => Category,  (category) => category.skill, {nullable: true})
+  category: Category | null
 }
