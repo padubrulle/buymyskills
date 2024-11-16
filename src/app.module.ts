@@ -5,6 +5,8 @@ import { SkillModule } from './skill/skill.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Skill } from './skill/entities/skill.entity';
 import { DataSource } from 'typeorm';
+import { CategoryModule } from './category/category.module';
+import { Category } from './category/entities/category.entity';
 
 @Module({
   imports: [
@@ -16,11 +18,12 @@ import { DataSource } from 'typeorm';
       password: 'I4mP0stGr3sPW',
       schema: 'public',
       database: 'buymyskills',
-      entities: [Skill],
+      entities: [Skill, Category],
       synchronize: true,
       autoLoadEntities: true,
     }),
     SkillModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
