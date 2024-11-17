@@ -23,7 +23,7 @@ export class Skill {
   img_url: string;
 
   @Column({nullable:true})
-  categoryId: string;
+  category_id: string;
 
   @ManyToOne(() => Category,  (category) => category.skill, {nullable: true})
   category: Category | null
