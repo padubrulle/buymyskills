@@ -7,6 +7,7 @@ import { Skill } from './skill/entities/skill.entity';
 import { DataSource } from 'typeorm';
 import { CategoryModule } from './category/category.module';
 import { Category } from './category/entities/category.entity';
+import 'dotenv/config'
 
 @Module({
   imports: [
@@ -14,10 +15,10 @@ import { Category } from './category/entities/category.entity';
       type: 'postgres',
       host: 'localhost',
       port: 5431,
-      username: 'postgres',
-      password: 'I4mP0stGr3sPW',
-      schema: 'public',
-      database: 'buymyskills',
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      schema: process.env.SCHEMA,
+      database: process.env.DATABASE,
       entities: [Skill, Category],
       synchronize: true,
       autoLoadEntities: true,
