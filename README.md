@@ -2,7 +2,7 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-## BuyMySkills | E-commerce nestJS app
+# BuyMySkills | E-commerce nestJS app
 
 This site is a simple ecommerce nestJS typescript app. It purpose is to connect recruiters and their futures team mates based on skills and average daily rate (ADR).
 
