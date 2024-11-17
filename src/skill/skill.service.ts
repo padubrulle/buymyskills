@@ -17,7 +17,7 @@ export class SkillService {
     return this.skillRepository.create(createSkillDto);
   }
 
-  findAll() {
+  findAll(): Promise<Skill[]> {
     return this.skillRepository.find();
   }
 

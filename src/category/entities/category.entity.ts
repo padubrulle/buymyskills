@@ -3,9 +3,9 @@ import { Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from
 
 @Entity('category')
 export class Category {
-    @PrimaryGeneratedColumn()
-    @PrimaryColumn()
-    id: number;
+    @PrimaryGeneratedColumn("uuid")
+    @PrimaryColumn("uuid")
+    id: string;
 
     @Column()
     name: string;
