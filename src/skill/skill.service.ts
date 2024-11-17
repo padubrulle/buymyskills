@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,12 +12,12 @@ export class SkillService {
     private skillRepository: Repository<Skill>,
     private dataSource: DataSource,
   ) {}
-  create(createSkillDto: CreateSkillDto) {
-    this.skillRepository.save(createSkillDto);
+  async create(createSkillDto: CreateSkillDto): Promise<Skill> {
+    await this.skillRepository.save(createSkillDto);
     return this.skillRepository.create(createSkillDto);
   }
 
-  findAll(): Promise<Skill[]> {
+  findAll() {
     return this.skillRepository.find();
   }
 
@@ -30,7 +30,13 @@ export class SkillService {
     return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} skill`;
+  async remove(id: string): Promise<any>{
+    const skill = await this.findOne(id);
+    if(skill){
+      this.skillRepository.delete(id)
+      return { deleted: true, skillId: skill.id, skillName: skill.name};
+    } else {
+      throw new HttpException('Skill not found', HttpStatus.NOT_FOUND)
+    }
   }
 }
