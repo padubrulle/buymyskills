@@ -2,9 +2,18 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-## Description
+## BuyMySkills | E-commerce nestJS app
 
-This is the backend for my demo site : BuyMySKills
+This site is a simple ecommerce nestJS typescript app. It purpose is to connect recruiters and their futures team mates based on skills and average daily rate (ADR).
+
+❗ Disclaimer : This site does not intent to fix prices, it just serves as a "base" for negotiations if a match append ❗
+
+This project is splitted in two repositories:
+
+* The current project for the back-end with ![NestJS](https://img.shields.io/badge/NestJS-%23E0234E.svg?logo=nestjs&logoColor=white)
+* <a href="https://github.com/padubrulle/bmskills-front/">This project</a> for the front-end with ![ReactJS](https://img.shields.io/badge/-ReactJS-35495E?logo=react) 
+
+This part is about creating the RESTAPI and manage business logic.
 
 ## Project setup
 
