@@ -21,12 +21,13 @@ export class SkillService {
     return this.skillRepository.find();
   }
 
-  findOne(id: string) {
+  findOne(id: string):Promise<Skill> {
     return this.skillRepository.findOne({where: {id: id}});
   }
 
-  update(id: number, updateSkillDto: UpdateSkillDto) {
-    return `This action updates a #${id} skill`;
+  async update(id: string, updateSkillDto: UpdateSkillDto): Promise<Skill> {
+    await this.skillRepository.update(id, updateSkillDto);
+    return this.findOne(id);
   }
 
   remove(id: number) {
