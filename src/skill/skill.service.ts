@@ -21,8 +21,8 @@ export class SkillService {
     return this.skillRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} skill`;
+  findOne(id: string) {
+    return this.skillRepository.findOne({where: {id: id}});
   }
 
   update(id: number, updateSkillDto: UpdateSkillDto) {

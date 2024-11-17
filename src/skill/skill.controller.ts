@@ -6,13 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { SkillService } from './skill.service';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
 import { Skill } from './entities/skill.entity';
 
-@Controller('skills')
+@Controller('/skills')
 export class SkillController {
   constructor(private readonly skillService: SkillService) {}
 
@@ -28,7 +29,7 @@ export class SkillController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.skillService.findOne(+id);
+    return this.skillService.findOne(id);
   }
 
   @Patch(':id')
