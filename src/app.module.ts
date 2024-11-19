@@ -9,6 +9,7 @@ import { CategoryModule } from './category/category.module';
 import { Category } from './category/entities/category.entity';
 import { RecruiterModule } from './recruiter/recruiter.module';
 import 'dotenv/config'
+import { Recruiter } from './recruiter/entities/recruiter.entity';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import 'dotenv/config'
       password: process.env.DB_PASSWORD,
       schema: process.env.SCHEMA,
       database: process.env.DATABASE,
-      entities: [Skill, Category],
+      entities: [Skill, Category, Recruiter],
       synchronize: true,
       autoLoadEntities: true,
     }),
