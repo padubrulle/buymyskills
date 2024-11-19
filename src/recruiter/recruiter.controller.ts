@@ -19,8 +19,8 @@ export class RecruiterController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.recruiterService.findOne(+id);
+  findOne(@Param('id') id: string): Promise<Recruiter> {
+    return this.recruiterService.findOne(id);
   }
 
   @Patch(':id')

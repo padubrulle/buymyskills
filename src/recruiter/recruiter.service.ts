@@ -23,8 +23,8 @@ export class RecruiterService {
     return this.recruiterRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} recruiter`;
+  findOne(id: string): Promise<Recruiter> {
+    return this.recruiterRepository.findOne({where: {id: id}});
   }
 
   update(id: number, updateRecruiterDto: UpdateRecruiterDto) {
