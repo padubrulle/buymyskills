@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RecruiterService } from './recruiter.service';
 import { CreateRecruiterDto } from './dto/create-recruiter.dto';
 import { UpdateRecruiterDto } from './dto/update-recruiter.dto';
+import { Recruiter } from './entities/recruiter.entity';
 
 @Controller('recruiter')
 export class RecruiterController {
@@ -13,7 +14,7 @@ export class RecruiterController {
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Recruiter[]> {
     return this.recruiterService.findAll();
   }
 

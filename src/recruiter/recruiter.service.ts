@@ -19,8 +19,8 @@ export class RecruiterService {
     return this.recruiterRepository.create(createRecruiterDto);
   }
 
-  findAll() {
-    return `This action returns all recruiter`;
+  findAll(): Promise<Recruiter[]> {
+    return this.recruiterRepository.find();
   }
 
   findOne(id: number) {
