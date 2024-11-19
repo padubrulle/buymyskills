@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateRecruiterDto } from './dto/create-recruiter.dto';
 import { UpdateRecruiterDto } from './dto/update-recruiter.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -32,7 +32,13 @@ export class RecruiterService {
     return await this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} recruiter`;
+  async remove(id: string) {
+    const recruiter = await this.findOne(id);
+    if(recruiter){
+      this.recruiterRepository.delete(id)
+      return { deleted: true, recruiterId: recruiter.id, recruiterFirstName: recruiter.first_name, recruiterLastName: recruiter.last_name, recruiterCompany: recruiter.company};
+    } else {
+      throw new HttpException('Recruiter not found', HttpStatus.NOT_FOUND)
+    }
   }
 }

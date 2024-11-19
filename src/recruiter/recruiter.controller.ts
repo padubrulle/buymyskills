@@ -30,6 +30,6 @@ export class RecruiterController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.recruiterService.remove(+id);
+    return this.recruiterService.remove(id);
   }
 }
