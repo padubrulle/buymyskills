@@ -18,7 +18,7 @@ export class SkillService {
   }
 
   findAll(): Promise<Skill[]> {
-    return this.skillRepository.find();
+    return this.skillRepository.find({order: {name: "ASC"}});
   }
 
   findOne(id: string):Promise<Skill> {

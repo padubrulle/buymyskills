@@ -7,6 +7,7 @@ import { Skill } from './skill/entities/skill.entity';
 import { DataSource } from 'typeorm';
 import { CategoryModule } from './category/category.module';
 import { Category } from './category/entities/category.entity';
+import { RecruiterModule } from './recruiter/recruiter.module';
 import 'dotenv/config'
 
 @Module({
@@ -25,6 +26,7 @@ import 'dotenv/config'
     }),
     SkillModule,
     CategoryModule,
+    RecruiterModule,
   ],
   controllers: [AppController],
   providers: [AppService],
