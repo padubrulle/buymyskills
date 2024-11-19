@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRecruiterDto } from './dto/create-recruiter.dto';
 import { UpdateRecruiterDto } from './dto/update-recruiter.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Recruiter } from './entities/recruiter.entity';
+import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
 export class RecruiterService {
+
+  constructor(
+    @InjectRepository(Recruiter)
+    private recruiterRepository: Repository<Recruiter>,
+    private dataSource: DataSource,
+  ) {}
+
   create(createRecruiterDto: CreateRecruiterDto) {
-    return 'This action adds a new recruiter';
+    this.recruiterRepository.save(createRecruiterDto);
+    return this.recruiterRepository.create(createRecruiterDto);
   }
 
   findAll() {
