@@ -27,8 +27,9 @@ export class RecruiterService {
     return this.recruiterRepository.findOne({where: {id: id}});
   }
 
-  update(id: number, updateRecruiterDto: UpdateRecruiterDto) {
-    return `This action updates a #${id} recruiter`;
+  async update(id: string, updateRecruiterDto: UpdateRecruiterDto): Promise<Recruiter> {
+    await this.recruiterRepository.update(id, updateRecruiterDto);
+    return await this.findOne(id);
   }
 
   remove(id: number) {

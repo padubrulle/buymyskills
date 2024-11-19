@@ -24,8 +24,8 @@ export class RecruiterController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecruiterDto: UpdateRecruiterDto) {
-    return this.recruiterService.update(+id, updateRecruiterDto);
+  update(@Param('id') id: string, @Body() updateRecruiterDto: UpdateRecruiterDto): Promise<Recruiter> {
+    return this.recruiterService.update(id, updateRecruiterDto);
   }
 
   @Delete(':id')
