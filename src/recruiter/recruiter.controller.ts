@@ -23,6 +23,19 @@ export class RecruiterController {
     return this.recruiterService.findOne(id);
   }
 
+  /**
+   * Endpoint to be deleted. It's only for testing purpose.
+   */
+  @Get(':id/password/:password')
+  async findUserWithMatchingPw(@Param('id') id: string, @Param('password') password: string) {
+    return { userFound: await this.recruiterService.findUserWithMatchingPw(id, password)};
+  }
+
+  @Get(':email/:password')
+  async findUserWithNameAndPw(@Param('email') email: string, @Param('password') password: string) {
+    return await this.recruiterService.findUserWithNameAndPw(email, password);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRecruiterDto: UpdateRecruiterDto): Promise<Recruiter> {
     return this.recruiterService.update(id, updateRecruiterDto);

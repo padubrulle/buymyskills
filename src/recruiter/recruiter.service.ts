@@ -4,6 +4,9 @@ import { UpdateRecruiterDto } from './dto/update-recruiter.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Recruiter } from './entities/recruiter.entity';
 import { DataSource, Repository } from 'typeorm';
+import bcrypt from 'bcrypt';
+import { SALTROUNDS } from 'src/constants/constants';
+import { hash } from 'crypto';
 
 @Injectable()
 export class RecruiterService {
@@ -14,9 +17,15 @@ export class RecruiterService {
     private dataSource: DataSource,
   ) {}
 
-  create(createRecruiterDto: CreateRecruiterDto) {
-    this.recruiterRepository.save(createRecruiterDto);
-    return this.recruiterRepository.create(createRecruiterDto);
+  async create(createRecruiterDto: CreateRecruiterDto) {
+    try {
+      const hash = await bcrypt.hash(createRecruiterDto.password, SALTROUNDS);
+      console.log('hash: ', hash)
+      createRecruiterDto.password = hash;
+      return this.recruiterRepository.save(createRecruiterDto);
+    }catch (err){
+      throw new Error(`Error hashing password: ${err}`);
+    }
   }
 
   findAll(): Promise<Recruiter[]> {
@@ -25,6 +34,16 @@ export class RecruiterService {
 
   findOne(id: string): Promise<Recruiter> {
     return this.recruiterRepository.findOne({where: {id: id}});
+  }
+
+  async findUserWithMatchingPw(id: string, password: string): Promise<boolean> {
+    const user = await this.findOne(id);
+    return await bcrypt.compare(password, user.password);
+  }
+
+  async findUserWithNameAndPw(email: string, password: string): Promise<boolean> {
+    const user = await this.recruiterRepository.findOneBy({email: email});
+    return await bcrypt.compare(password, user.password);
   }
 
   async update(id: string, updateRecruiterDto: UpdateRecruiterDto): Promise<Recruiter> {
