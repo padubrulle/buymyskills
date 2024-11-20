@@ -1,9 +1,6 @@
-export class CreateRecruiterDto {
-    id?: string;
-    email: string;
-    password: string;
-    first_name: string;
-    last_name: string;
+import { CreateUserDto } from "src/user/dto/create-user.dto";
+
+export class CreateRecruiterDto extends CreateUserDto {
     company: string;
     company_role: string;
 }
