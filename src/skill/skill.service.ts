@@ -25,6 +25,10 @@ export class SkillService {
     return this.skillRepository.findOne({where: {id: id}});
   }
 
+  findByName(name: string): Promise<Skill>{
+    return this.skillRepository.findOne({where: {name: name}});
+  }
+
   async update(id: string, updateSkillDto: UpdateSkillDto): Promise<Skill> {
     await this.skillRepository.update(id, updateSkillDto);
     return this.findOne(id);

@@ -12,6 +12,7 @@ import { SkillService } from './skill.service';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
 import { Skill } from './entities/skill.entity';
+import { validate as isUuid } from 'uuid'
 
 @Controller('/skills')
 export class SkillController {
@@ -27,10 +28,15 @@ export class SkillController {
     return this.skillService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.skillService.findOne(id);
+  @Get(':str')
+  findOne(@Param('str') str: string) {
+    if(isUuid(str)){
+      return this.skillService.findOne(str);
+    } else {
+      return this.skillService.findByName(str)
+    }
   }
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSkillDto: UpdateSkillDto) {
