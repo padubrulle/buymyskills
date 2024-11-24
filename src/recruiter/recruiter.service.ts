@@ -20,7 +20,6 @@ export class RecruiterService {
   async create(createRecruiterDto: CreateRecruiterDto) {
     try {
       const hash = await bcrypt.hash(createRecruiterDto.password, SALTROUNDS);
-      console.log('hash: ', hash)
       createRecruiterDto.password = hash;
       return this.recruiterRepository.save(createRecruiterDto);
     }catch (err){
