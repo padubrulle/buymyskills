@@ -6,6 +6,7 @@ import { Talent } from './entities/talent.entity';
 import { DataSource, Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { SALTROUNDS } from 'src/constants/constants';
+import { Skill } from 'src/skill/entities/skill.entity';
 
 @Injectable()
 export class TalentService {
@@ -44,10 +45,26 @@ export class TalentService {
     return await bcrypt.compare(password, user.password);
   }
 
+  async findSkillsForThisUser(id: string){
+    return await this.talentRepository.findOne({
+      where: {id: id},
+      relations: ['skills']
+    })
+  }
+
   async update(id: string, UpdateTalentDto: UpdateTalentDto): Promise<Talent> {
     await this.talentRepository.update(id, UpdateTalentDto);
     return await this.findOne(id);
   }
+
+  async addSkillToUser(userId: string, skill: Skill) {
+    const user = await this.talentRepository.findOne({ where: { id: userId }, relations: ['skills'] });
+    if (user) {
+      user.skills.push(skill);
+      await this.talentRepository.save(user);
+    }
+  }
+  
 
   async remove(id: string) {
     const talent = await this.findOne(id);

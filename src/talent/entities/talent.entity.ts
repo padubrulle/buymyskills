@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Skill } from "src/skill/entities/skill.entity";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Talent {
@@ -23,4 +24,8 @@ export class Talent {
 
     @Column({nullable: true})
     current_company: string;
+
+    @ManyToMany(() => Skill, {nullable: true})
+    @JoinTable()
+    skills: Skill[];
 }

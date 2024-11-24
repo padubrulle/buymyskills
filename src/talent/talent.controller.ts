@@ -3,6 +3,7 @@ import { TalentService } from './talent.service';
 import { CreateTalentDto } from './dto/create-talent.dto';
 import { UpdateTalentDto } from './dto/update-talent.dto';
 import { Talent } from './entities/talent.entity';
+import { Skill } from 'src/skill/entities/skill.entity';
 
 @Controller('talent')
 export class TalentController {
@@ -31,9 +32,19 @@ export class TalentController {
     return { userFound: await this.talentService.findUserWithMatchingPw(id, password)};
   }
 
-  @Get(':email/:password')
+  @Get(':email/pw/:password')
   async findUserWithNameAndPw(@Param('email') email: string, @Param('password') password: string) {
     return await this.talentService.findUserWithNameAndPw(email, password);
+  }
+
+  @Get(':id/skills')
+  findSkillsForThisUser(@Param('id') id: string){
+    return this.talentService.findSkillsForThisUser(id);
+  }
+
+  @Post(':id/skills')
+  addSkillToUser(@Param('id') id: string, @Body() skill: Skill){
+    return this.talentService.addSkillToUser(id, skill);
   }
 
   @Patch(':id')
