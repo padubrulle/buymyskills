@@ -14,7 +14,7 @@ import { UpdateSkillDto } from './dto/update-skill.dto';
 import { Skill } from './entities/skill.entity';
 import { validate as isUuid } from 'uuid'
 
-@Controller('/skills')
+@Controller('/skill')
 export class SkillController {
   constructor(private readonly skillService: SkillService) {}
 
