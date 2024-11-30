@@ -1,6 +1,16 @@
 import { CreateUserDto } from "src/user/dto/create-user.dto";
 
 export class CreateRecruiterDto extends CreateUserDto {
-    company: string;
-    company_role: string;
+    id: string;
+    user: {
+        id: string;
+        first_name: string;
+        last_name: string;
+        email: string;
+    }
+    company: {
+        id: string;
+        name: string;
+    }
+    job_title: string;
 }

@@ -1,26 +1,21 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Company } from "src/Company/entities/company.entity";
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity('recruiters')
 export class Recruiter {
     @PrimaryColumn("uuid")
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
     @Column()
-    email: string;
+    job_title: string;
 
-    @Column()
-    password: string;
+    @OneToOne(() => User, (user) => user.role)
+    @JoinColumn({name: "user_id"})
+    user: User;
 
-    @Column()
-    first_name: string;
-
-    @Column()
-    last_name: string;
-
-    @Column()
-    company: string;
-
-    @Column()
-    company_role: string;
+    @OneToMany(() => Company, (company) => company.recruiters, { onDelete: 'CASCADE'})
+    @JoinColumn({name: "company_id"})
+    company: Company;
 }

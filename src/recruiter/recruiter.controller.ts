@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
 import { RecruiterService } from './recruiter.service';
 import { CreateRecruiterDto } from './dto/create-recruiter.dto';
 import { UpdateRecruiterDto } from './dto/update-recruiter.dto';
@@ -18,17 +18,17 @@ export class RecruiterController {
     return this.recruiterService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<Recruiter> {
-    return this.recruiterService.findOne(id);
+  @Get(':uuid')
+  findOne(@Param('uuid', new ParseUUIDPipe()) uuid: string): Promise<Recruiter> {
+    return this.recruiterService.findOne(uuid);
   }
 
   /**
    * Endpoint to be deleted. It's only for testing purpose.
    */
-  @Get(':id/password/:password')
-  async findUserWithMatchingPw(@Param('id') id: string, @Param('password') password: string) {
-    return { userFound: await this.recruiterService.findUserWithMatchingPw(id, password)};
+  @Get(':uuid/password/:password')
+  async findUserWithMatchingPw(@Param('uuid', new ParseUUIDPipe()) uuid: string, @Param('password') password: string) {
+    return { userFound: await this.recruiterService.findUserWithMatchingPw(uuid, password)};
   }
 
   @Get(':email/:password')
@@ -36,13 +36,13 @@ export class RecruiterController {
     return await this.recruiterService.findUserWithNameAndPw(email, password);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecruiterDto: UpdateRecruiterDto): Promise<Recruiter> {
-    return this.recruiterService.update(id, updateRecruiterDto);
+  @Patch(':uuid')
+  update(@Param('uuid', new ParseUUIDPipe()) uuid: string, @Body() updateRecruiterDto: UpdateRecruiterDto): Promise<Recruiter> {
+    return this.recruiterService.update(uuid, updateRecruiterDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.recruiterService.remove(id);
+  @Delete(':uuid')
+  remove(@Param('uuid', new ParseUUIDPipe()) uuid: string) {
+    return this.recruiterService.remove(uuid);
   }
 }

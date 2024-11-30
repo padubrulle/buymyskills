@@ -6,7 +6,7 @@ import { Recruiter } from './entities/recruiter.entity';
 import { DataSource, Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { SALTROUNDS } from 'src/constants/constants';
-import { hash } from 'crypto';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class RecruiterService {
@@ -18,13 +18,26 @@ export class RecruiterService {
   ) {}
 
   async create(createRecruiterDto: CreateRecruiterDto) {
-    try {
-      const hash = await bcrypt.hash(createRecruiterDto.password, SALTROUNDS);
-      createRecruiterDto.password = hash;
-      return this.recruiterRepository.save(createRecruiterDto);
-    }catch (err){
-      throw new Error(`Error hashing password: ${err}`);
+    if(this.findByEmail(createRecruiterDto.email)){
+      throw new HttpException('An error occurred while creating your account. If the problem persists, please contact support.', HttpStatus.CONFLICT)
+    } else {
+      try {
+        const hash = await bcrypt.hash(createRecruiterDto.password, SALTROUNDS);
+        createRecruiterDto.password = hash;
+        return this.recruiterRepository.save(createRecruiterDto);
+      }catch (err){
+        throw new Error(`Error hashing password: ${err}`);
+      }
     }
+  }
+
+  findByEmail(email: string): Promise<Recruiter>{
+    return this.recruiterRepository.findOne({
+      where: {
+        user: {email: email},
+      },
+      relations: ['user']
+    });
   }
 
   findAll(): Promise<Recruiter[]> {
@@ -32,17 +45,22 @@ export class RecruiterService {
   }
 
   findOne(id: string): Promise<Recruiter> {
-    return this.recruiterRepository.findOne({where: {id: id}});
+    return this.recruiterRepository.findOne({
+      where: {
+        user: {id: id}
+      },
+      relations: ['user'],
+  });
   }
 
   async findUserWithMatchingPw(id: string, password: string): Promise<boolean> {
-    const user = await this.findOne(id);
-    return await bcrypt.compare(password, user.password);
+    const  recruiter = await this.findOne(id);
+    return await bcrypt.compare(password, recruiter.user.password);
   }
 
   async findUserWithNameAndPw(email: string, password: string): Promise<boolean> {
-    const user = await this.recruiterRepository.findOneBy({email: email});
-    return await bcrypt.compare(password, user.password);
+    const recruiter = await this.findByEmail(email);
+    return await bcrypt.compare(password, recruiter.user.password);
   }
 
   async update(id: string, updateRecruiterDto: UpdateRecruiterDto): Promise<Recruiter> {
@@ -54,7 +72,7 @@ export class RecruiterService {
     const recruiter = await this.findOne(id);
     if(recruiter){
       this.recruiterRepository.delete(id)
-      return { deleted: true, recruiterId: recruiter.id, recruiterFirstName: recruiter.first_name, recruiterLastName: recruiter.last_name, recruiterCompany: recruiter.company};
+      return { deleted: true, recruiterId: recruiter.id, recruiterFirstName: recruiter.user.first_name, recruiterLastName: recruiter.user.last_name, recruiterCompany: recruiter.company};
     } else {
       throw new HttpException('Recruiter not found', HttpStatus.NOT_FOUND)
     }
