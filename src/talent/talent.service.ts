@@ -17,13 +17,17 @@ export class TalentService {
     private dataSource: DataSource,
   ) {}
 
-  async create(CreateTalentDto: CreateTalentDto) {
-    try {
-      const hash = await bcrypt.hash(CreateTalentDto.password, SALTROUNDS);
-      CreateTalentDto.password = hash;
-      return this.talentRepository.save(CreateTalentDto);
-    }catch (err){
-      throw new Error(`Error hashing password: ${err}`);
+  async create(createTalentDto: CreateTalentDto) {
+    if(this.findByEmail(createTalentDto.email)){
+      throw new HttpException('An error occurred while creating your account. If the problem persists, please contact support.', HttpStatus.CONFLICT)
+    } else {
+      try {
+        const hash = await bcrypt.hash(createTalentDto.password, SALTROUNDS);
+        createTalentDto.password = hash;
+        return this.talentRepository.save(createTalentDto);
+      }catch (err){
+        throw new Error(`Error hashing password: ${err}`);
+      }
     }
   }
 
@@ -32,17 +36,36 @@ export class TalentService {
   }
 
   findOne(id: string): Promise<Talent> {
-    return this.talentRepository.findOne({where: {id: id}});
+    return this.talentRepository.findOne({
+      where: {
+        user: { id: id},
+      }, 
+      relations: ['user']
+    });
+  }
+
+  findByEmail(email: string): Promise<Talent>{
+    return this.talentRepository.findOne({
+      where: {
+        user: {email: email},
+      },
+      relations: ['user']
+    });
   }
 
   async findUserWithMatchingPw(id: string, password: string): Promise<boolean> {
-    const user = await this.findOne(id);
-    return await bcrypt.compare(password, user.password);
+    const talent = await this.findOne(id);
+    return await bcrypt.compare(password, talent.user.password);
   }
 
   async findUserWithNameAndPw(email: string, password: string): Promise<boolean> {
-    const user = await this.talentRepository.findOneBy({email: email});
-    return await bcrypt.compare(password, user.password);
+    const talent = await this.talentRepository.findOne({
+      where: {
+        user: {email: email},
+      },
+      relations: ['user']
+    });
+    return await bcrypt.compare(password, talent.user.password);
   }
 
   async findSkillsForThisUser(id: string){
@@ -58,7 +81,9 @@ export class TalentService {
   }
 
   async addSkillToUser(userId: string, skill: Skill) {
-    const user = await this.talentRepository.findOne({ where: { id: userId }, relations: ['skills'] });
+    const user = await this.talentRepository.findOne({ 
+      where: { id: userId }, 
+      relations: ['skills'] });
     if (user) {
       user.skills.push(skill);
       await this.talentRepository.save(user);
@@ -68,9 +93,10 @@ export class TalentService {
 
   async remove(id: string) {
     const talent = await this.findOne(id);
+    const user = talent.user;
     if(talent){
       this.talentRepository.delete(id)
-      return { deleted: true, talentId: talent.id, talentFirstName: talent.first_name, talentLastName: talent.last_name, talentCompany: talent.current_company};
+      return { deleted: true, talentId: talent.id, talentFirstName: user.first_name, talentLastName: user.last_name, talentCompany: talent.current_company};
     } else {
       throw new HttpException('talent not found', HttpStatus.NOT_FOUND)
     }

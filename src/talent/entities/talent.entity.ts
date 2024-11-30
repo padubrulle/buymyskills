@@ -1,29 +1,36 @@
+import { Company } from "src/Company/entities/company.entity";
 import { Skill } from "src/skill/entities/skill.entity";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity('talents')
 export class Talent {
     @PrimaryColumn("uuid")
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column()
-    email: string;
+    @OneToOne(() => User, (user) => user.talent)
+    @JoinColumn({name: "user_id"})
+    user: User;
 
-    @Column()
-    password: string;
-
-    @Column()
-    first_name: string;
-
-    @Column()
-    last_name: string;
+    @OneToOne(() => Company, (company) => company.talents, {nullable: true})
+    @JoinColumn({name: "current_company_id"})
+    current_company: Company | null;
 
     @Column({nullable: true})
-    personal_website: string;
+    job_title: string;
 
     @Column({nullable: true})
-    current_company: string;
+    portfolio_url: string;
+
+    @Column({nullable: true})
+    bio: string;
+
+    @Column({nullable: true})
+    status: string;
+
+    @Column({nullable: true})
+    is_available: boolean;
 
     @ManyToMany(() => Skill, {nullable: true})
     @JoinTable()
