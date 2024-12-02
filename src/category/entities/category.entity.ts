@@ -1,7 +1,7 @@
 import { Skill } from "src/skill/entities/skill.entity";
 import { Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('category')
+@Entity('categories')
 export class Category {
     @PrimaryGeneratedColumn("uuid")
     @PrimaryColumn("uuid")

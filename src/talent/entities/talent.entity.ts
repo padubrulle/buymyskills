@@ -6,11 +6,10 @@ import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryCol
 @Entity('talents')
 export class Talent {
     @PrimaryColumn("uuid")
-    @PrimaryGeneratedColumn("uuid")
     id: string;
 
     @OneToOne(() => User, (user) => user.talent)
-    @JoinColumn({name: "user_id"})
+    @JoinColumn({name: "id"})
     user: User;
 
     @OneToOne(() => Company, (company) => company.talents, {nullable: true})

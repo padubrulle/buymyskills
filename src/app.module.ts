@@ -12,6 +12,9 @@ import 'dotenv/config'
 import { Recruiter } from './recruiter/entities/recruiter.entity';
 import { Talent } from './talent/entities/talent.entity';
 import { TalentModule } from './talent/talent.module';
+import { CompanyModule } from './company/company.module';
+import { UserModule } from './user/user.module';
+import { User } from './user/entities/user.entity';
 
 @Module({
   imports: [
@@ -23,14 +26,16 @@ import { TalentModule } from './talent/talent.module';
       password: process.env.DB_PASSWORD,
       schema: process.env.SCHEMA,
       database: process.env.DATABASE,
-      entities: [Skill, Category, Recruiter, Talent],
+      entities: [Skill, Category, Recruiter, Talent, User],
       synchronize: true,
       autoLoadEntities: true,
     }),
     SkillModule,
     CategoryModule,
     RecruiterModule,
-    TalentModule
+    TalentModule,
+    CompanyModule,
+    UserModule
   ]
 })
 export class AppModule {

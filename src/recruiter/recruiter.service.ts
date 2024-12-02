@@ -18,7 +18,7 @@ export class RecruiterService {
   ) {}
 
   async create(createRecruiterDto: CreateRecruiterDto) {
-    if(this.findByEmail(createRecruiterDto.email)){
+    if(await this.findByEmail(createRecruiterDto.email)){
       throw new HttpException('An error occurred while creating your account. If the problem persists, please contact support.', HttpStatus.CONFLICT)
     } else {
       try {

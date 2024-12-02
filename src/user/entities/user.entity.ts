@@ -21,7 +21,7 @@ export class User {
     @Column()
     last_name: string;
 
-    @Column()
+    @Column({nullable: true})
     phone: string;
 
     @Column({type: 'enum', enum: ['recruiter', 'talent']})
@@ -30,14 +30,14 @@ export class User {
     @OneToOne(() => Recruiter, (recruiter) => recruiter.user)
     recruiter: Recruiter;
 
-    @OneToOne(() => Talent, (talent) => talent.user)
+    @OneToOne(() => Talent, (talent) => talent.user, {cascade: true})
     talent: Talent;
 
-    @Column()
-    created_at: Date;
+    @Column({default: new Date().toJSON()})
+    created_at: string;
 
-    @Column()
-    updated_at: Date;
+    @Column({default: new Date().toJSON()})
+    updated_at: string;
 
     @Column({nullable: true})
     country: string;
@@ -51,12 +51,12 @@ export class User {
     @Column({nullable: true})
     language: string;
 
-    @Column()
+    @Column({default: false})
     is_verified: boolean;
 
     @Column({nullable: true})
-    last_login: Date;
+    last_login: string;
 
-    @Column({nullable: true})
+    @Column({default: 0})
     failed_login_attempts: number;
 }

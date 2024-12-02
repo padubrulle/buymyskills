@@ -4,9 +4,21 @@ export class CreateTalentDto extends CreateUserDto {
     id: string;
     user: {
         id: string;
+        email: string;
+        password: string;
         first_name: string;
         last_name: string;
-        email: string;
+        phone: string;
+        role: 'recruiter' | 'talent';
+        created_at: string;
+        updated_at: string;
+        country: string;
+        city: string;
+        timezone: string;
+        language: string;
+        is_verified: boolean;
+        last_login: string;
+        failed_login_attempts: number;
     }
     current_company?: {
         id: string;
@@ -17,4 +29,5 @@ export class CreateTalentDto extends CreateUserDto {
     status?: string;
     portfolio_url?: string;
     is_available?: boolean;
+    company_id: string;
 }

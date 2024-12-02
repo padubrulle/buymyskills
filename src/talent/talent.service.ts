@@ -7,6 +7,8 @@ import { DataSource, Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { SALTROUNDS } from 'src/constants/constants';
 import { Skill } from 'src/skill/entities/skill.entity';
+import { User } from 'src/user/entities/user.entity';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class TalentService {
@@ -14,25 +16,29 @@ export class TalentService {
   constructor(
     @InjectRepository(Talent)
     private talentRepository: Repository<Talent>,
+    private userService: UserService,
     private dataSource: DataSource,
   ) {}
 
   async create(createTalentDto: CreateTalentDto) {
-    if(this.findByEmail(createTalentDto.email)){
+    const { ...talentData } = createTalentDto;
+    if(await this.findByEmail(createTalentDto.email)){
       throw new HttpException('An error occurred while creating your account. If the problem persists, please contact support.', HttpStatus.CONFLICT)
     } else {
       try {
-        const hash = await bcrypt.hash(createTalentDto.password, SALTROUNDS);
-        createTalentDto.password = hash;
+        createTalentDto.role = 'talent';
+        await this.userService.create(createTalentDto)
         return this.talentRepository.save(createTalentDto);
       }catch (err){
-        throw new Error(`Error hashing password: ${err}`);
+        throw new Error(`Error: ${err}`);
       }
     }
   }
 
   findAll(): Promise<Talent[]> {
-    return this.talentRepository.find();
+    return this.talentRepository.find({
+      relations: ['user', 'current_company'],
+    });
   }
 
   findOne(id: string): Promise<Talent> {
@@ -44,8 +50,8 @@ export class TalentService {
     });
   }
 
-  findByEmail(email: string): Promise<Talent>{
-    return this.talentRepository.findOne({
+  async findByEmail(email: string): Promise<Talent>{
+    return await this.talentRepository.findOne({
       where: {
         user: {email: email},
       },
@@ -70,7 +76,10 @@ export class TalentService {
 
   async findSkillsForThisUser(id: string){
     return await this.talentRepository.findOne({
-      where: {id: id},
+      where:{
+        user:
+        {id: id}
+      },
       relations: ['skills']
     })
   }
@@ -82,7 +91,9 @@ export class TalentService {
 
   async addSkillToUser(userId: string, skill: Skill) {
     const user = await this.talentRepository.findOne({ 
-      where: { id: userId }, 
+      where: {
+        user: { id: userId }
+      }, 
       relations: ['skills'] });
     if (user) {
       user.skills.push(skill);

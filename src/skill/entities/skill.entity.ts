@@ -1,9 +1,9 @@
 import { Category } from 'src/category/entities/category.entity';
-import { Entity, Column, PrimaryColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, PrimaryGeneratedColumn, JoinColumn } from 'typeorm';
 
-@Entity('skill')
+@Entity('skills')
 export class Skill {
-  @PrimaryColumn()
+  @PrimaryColumn("uuid")
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -22,9 +22,7 @@ export class Skill {
   @Column({nullable:true})
   img_url: string;
 
-  @Column({nullable:true})
-  category_id: string;
-
   @ManyToOne(() => Category,  (category) => category.skill, {nullable: true})
+  @JoinColumn({name: "category_id"})
   category: Category | null
 }
