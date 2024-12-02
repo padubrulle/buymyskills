@@ -5,9 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Talent } from './entities/talent.entity';
 import { DataSource, Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
-import { SALTROUNDS } from 'src/constants/constants';
 import { Skill } from 'src/skill/entities/skill.entity';
-import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -21,7 +19,6 @@ export class TalentService {
   ) {}
 
   async create(createTalentDto: CreateTalentDto) {
-    const { ...talentData } = createTalentDto;
     if(await this.findByEmail(createTalentDto.email)){
       throw new HttpException('An error occurred while creating your account. If the problem persists, please contact support.', HttpStatus.CONFLICT)
     } else {

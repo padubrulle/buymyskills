@@ -5,8 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Recruiter } from './entities/recruiter.entity';
 import { DataSource, Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
-import { SALTROUNDS } from 'src/constants/constants';
-import { User } from 'src/user/entities/user.entity';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class RecruiterService {
@@ -14,6 +13,7 @@ export class RecruiterService {
   constructor(
     @InjectRepository(Recruiter)
     private recruiterRepository: Repository<Recruiter>,
+    private userService: UserService,
     private dataSource: DataSource,
   ) {}
 
@@ -22,11 +22,11 @@ export class RecruiterService {
       throw new HttpException('An error occurred while creating your account. If the problem persists, please contact support.', HttpStatus.CONFLICT)
     } else {
       try {
-        const hash = await bcrypt.hash(createRecruiterDto.password, SALTROUNDS);
-        createRecruiterDto.password = hash;
+        createRecruiterDto.role = 'talent';
+        await this.userService.create(createRecruiterDto)
         return this.recruiterRepository.save(createRecruiterDto);
       }catch (err){
-        throw new Error(`Error hashing password: ${err}`);
+        throw new Error(`Error: ${err}`);
       }
     }
   }
