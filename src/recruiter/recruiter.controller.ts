@@ -18,6 +18,12 @@ export class RecruiterController {
     return this.recruiterService.findAll();
   }
 
+  @Get('/email/:email')
+  findByEmail(@Param('email') email: string): Promise<Recruiter> {
+    return this.recruiterService.findByEmail(email);
+  }
+  
+
   @Get(':uuid')
   findOne(@Param('uuid', new ParseUUIDPipe()) uuid: string): Promise<Recruiter> {
     return this.recruiterService.findOne(uuid);

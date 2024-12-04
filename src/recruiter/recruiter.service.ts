@@ -22,7 +22,7 @@ export class RecruiterService {
       throw new HttpException('An error occurred while creating your account. If the problem persists, please contact support.', HttpStatus.CONFLICT)
     } else {
       try {
-        createRecruiterDto.role = 'talent';
+        createRecruiterDto.role = 'recruiter';
         await this.userService.create(createRecruiterDto)
         return this.recruiterRepository.save(createRecruiterDto);
       }catch (err){
