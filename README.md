@@ -15,13 +15,59 @@ This project is splitted in two repositories:
 
 This part is about creating the RESTAPI and manage business logic.
 
+## Requirements
+
+* Docker : https://www.docker.com/products/docker-desktop/
+* NodeJS : https://nodejs.org/en
+* IDE like VSCode : https://code.visualstudio.com/
+
 ## Project setup
+
+First you need to setup postgres docker container. 
+
+Please run the following commands : 
+```bash
+$ docker pull postgres
+
+$ docker run -d --name postgresCont -p 5431:5432 -h localhost -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=my_secret_password -e POSTGRES_DB=buymyskills postgres
+```
+
+You can replace my_secret_password by any password you like.
+
+Using pgadmin you can now connect to localhost:5431 using user postgres and password "my_secret_password" 
+
+Clone the project on your computer.
+
+Open it with vscode. You can open a terminal inside by using ctrl + shift + ù.
+
+In the terminal, execute following command : 
 
 ```bash
 $ npm install
 ```
 
+At the root of the project create a file named .env and insert this : 
+```bash
+DB_USERNAME="postgres"
+DB_PASSWORD="my_secret_password"
+SCHEMA="public"
+DATABASE="buymyskills"
+```
+
+Congrats! Setup is now complete! 
+
+You can now...
+
 ## Compile and run the project
+
+The short hand : execute 
+
+```bash
+# watch mode
+$ npm run start:dev
+```
+
+Else, here are the possibilities.
 
 ```bash
 # development
@@ -66,10 +112,8 @@ Check out a few resources that may come in handy when working with NestJS:
 
 - Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
 - For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
 - Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
 - Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
 
 ## Support
 
