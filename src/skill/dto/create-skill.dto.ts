@@ -5,8 +5,6 @@ export class CreateSkillDto {
   description?: string;
   img_url?: string;
   multiplying_factor?: number;
-  category?: {
-    id: string;
-  }
+  category_id?: number;
   level_id?: number;
 }

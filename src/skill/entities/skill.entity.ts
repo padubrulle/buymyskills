@@ -22,6 +22,9 @@ export class Skill {
   @Column({nullable:true})
   img_url: string;
 
+  @Column({nullable: true})
+  category_id: number | null
+
   @ManyToOne(() => Category,  (category) => category.skill, {nullable: true})
   @JoinColumn({name: "category_id"})
   category: Category | null
