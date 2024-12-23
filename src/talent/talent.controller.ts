@@ -33,8 +33,8 @@ export class TalentController {
   }
 
   @Get(':email/pw/:password')
-  async findUserWithNameAndPw(@Param('email') email: string, @Param('password') password: string) {
-    return await this.talentService.findUserWithNameAndPw(email, password);
+  async findUserWithEmailAndPw(@Param('email') email: string, @Param('password') password: string) {
+    return await this.talentService.findUserWithEmailAndPw(email, password);
   }
 
   @Get(':uuid/skills')

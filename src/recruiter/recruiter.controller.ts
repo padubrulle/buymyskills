@@ -38,8 +38,8 @@ export class RecruiterController {
   }
 
   @Get(':email/:password')
-  async findUserWithNameAndPw(@Param('email') email: string, @Param('password') password: string) {
-    return await this.recruiterService.findUserWithNameAndPw(email, password);
+  async findUserWithEmailAndPw(@Param('email') email: string, @Param('password') password: string) {
+    return await this.recruiterService.findUserWithEmailAndPw(email, password);
   }
 
   @Patch(':uuid')

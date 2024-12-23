@@ -58,7 +58,7 @@ export class RecruiterService {
     return await bcrypt.compare(password, recruiter.user.password);
   }
 
-  async findUserWithNameAndPw(email: string, password: string): Promise<boolean> {
+  async findUserWithEmailAndPw(email: string, password: string): Promise<boolean> {
     const recruiter = await this.findByEmail(email);
     return await bcrypt.compare(password, recruiter.user.password);
   }

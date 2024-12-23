@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { Skill } from 'src/skill/entities/skill.entity';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -14,6 +14,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   findAll(): Promise<User[]> {
     return this.userService.findAll();
@@ -33,8 +34,8 @@ export class UserController {
   }
 
   @Get(':email/pw/:password')
-  async findUserWithNameAndPw(@Param('email') email: string, @Param('password') password: string) {
-    return await this.userService.findUserWithNameAndPw(email, password);
+  async findUserWithEmailAndPw(@Param('email') email: string, @Param('password') password: string) {
+    return await this.userService.findUserWithEmailAndPw(email, password);
   }
 
   @Patch(':uuid')

@@ -61,7 +61,7 @@ export class TalentService {
     return await bcrypt.compare(password, talent.user.password);
   }
 
-  async findUserWithNameAndPw(email: string, password: string): Promise<boolean> {
+  async findUserWithEmailAndPw(email: string, password: string): Promise<boolean> {
     const talent = await this.talentRepository.findOne({
       where: {
         user: {email: email},

@@ -51,7 +51,7 @@ export class UserService {
     return await bcrypt.compare(password, user.password);
   }
 
-  async findUserWithNameAndPw(email: string, password: string): Promise<boolean> {
+  async findUserWithEmailAndPw(email: string, password: string): Promise<boolean> {
     const user = await this.userRepository.findOne({
       where: {email: email}
     });

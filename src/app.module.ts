@@ -15,6 +15,7 @@ import { TalentModule } from './talent/talent.module';
 import { CompanyModule } from './company/company.module';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { User } from './user/entities/user.entity';
     RecruiterModule,
     TalentModule,
     CompanyModule,
-    UserModule
+    UserModule,
+    AuthModule
   ]
 })
 export class AppModule {
