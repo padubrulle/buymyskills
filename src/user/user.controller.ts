@@ -32,21 +32,6 @@ export class UserController {
     return this.userService.findOne(uuid);
   }
 
-  /**
-   * Endpoint to be deleted. It's only for testing purpose.
-   */
-  @Get(':userId/password/:password')
-  @ApiOperation({summary: 'For testing purpose. Will be deleted'})
-  async findUserWithMatchingPw(@Param('userId', new ParseUUIDPipe()) uuid: string, @Param('password') password: string) {
-    return { userFound: await this.userService.findUserWithMatchingPw(uuid, password)};
-  }
-
-  @Get(':email/pw/:password')
-  @ApiOperation({summary: 'For testing purpose. Will be deleted'})
-  async findUserWithEmailAndPw(@Param('email') email: string, @Param('password') password: string) {
-    return await this.userService.findUserWithEmailAndPw(email, password);
-  }
-
   @Patch(':userId')
   @ApiOperation({summary: 'Update an user'})
   @ApiOkResponse({description: 'The user have been successfully updated'})

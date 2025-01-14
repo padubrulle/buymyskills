@@ -6,14 +6,13 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
 } from '@nestjs/common';
 import { SkillService } from './skill.service';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
 import { Skill } from './entities/skill.entity';
 import { validate as isUuid } from 'uuid'
-import { ApiAcceptedResponse, ApiAmbiguousResponse, ApiBadGatewayResponse, ApiBadRequestResponse, ApiCreatedResponse, ApiForbiddenResponse, ApiGatewayTimeoutResponse, ApiInternalServerErrorResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiServiceUnavailableResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Skills')
 @Controller('/skill')

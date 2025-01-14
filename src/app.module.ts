@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { SkillModule } from './skill/skill.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Skill } from './skill/entities/skill.entity';

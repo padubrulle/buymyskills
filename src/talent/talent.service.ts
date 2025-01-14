@@ -3,7 +3,7 @@ import { CreateTalentDto } from './dto/create-talent.dto';
 import { UpdateTalentDto } from './dto/update-talent.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Talent } from './entities/talent.entity';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { Skill } from 'src/skill/entities/skill.entity';
 import { UserService } from 'src/user/user.service';
@@ -15,7 +15,6 @@ export class TalentService {
     @InjectRepository(Talent)
     private talentRepository: Repository<Talent>,
     private userService: UserService,
-    private dataSource: DataSource,
   ) {}
 
   async create(createTalentDto: CreateTalentDto) {

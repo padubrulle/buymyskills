@@ -3,7 +3,7 @@ import { CreateRecruiterDto } from './dto/create-recruiter.dto';
 import { UpdateRecruiterDto } from './dto/update-recruiter.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Recruiter } from './entities/recruiter.entity';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { UserService } from 'src/user/user.service';
 
@@ -14,7 +14,6 @@ export class RecruiterService {
     @InjectRepository(Recruiter)
     private recruiterRepository: Repository<Recruiter>,
     private userService: UserService,
-    private dataSource: DataSource,
   ) {}
 
   async create(createRecruiterDto: CreateRecruiterDto) {
