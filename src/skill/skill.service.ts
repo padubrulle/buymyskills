@@ -3,14 +3,13 @@ import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Skill } from './entities/skill.entity';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SkillService {
   constructor(
     @InjectRepository(Skill)
-    private skillRepository: Repository<Skill>,
-    private dataSource: DataSource,
+    private skillRepository: Repository<Skill>
   ) {}
   async create(createSkillDto: CreateSkillDto): Promise<Skill> {
     await this.skillRepository.save(createSkillDto);

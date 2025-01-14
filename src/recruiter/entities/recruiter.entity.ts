@@ -1,6 +1,6 @@
 import { Company } from "src/Company/entities/company.entity";
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 
 @Entity('recruiters')
 export class Recruiter {
