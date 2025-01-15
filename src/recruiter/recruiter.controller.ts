@@ -22,24 +22,10 @@ export class RecruiterController {
   findByEmail(@Param('email') email: string): Promise<Recruiter> {
     return this.recruiterService.findByEmail(email);
   }
-  
 
   @Get(':uuid')
   findOne(@Param('uuid', new ParseUUIDPipe()) uuid: string): Promise<Recruiter> {
     return this.recruiterService.findOne(uuid);
-  }
-
-  /**
-   * Endpoint to be deleted. It's only for testing purpose.
-   */
-  @Get(':uuid/password/:password')
-  async findUserWithMatchingPw(@Param('uuid', new ParseUUIDPipe()) uuid: string, @Param('password') password: string) {
-    return { userFound: await this.recruiterService.findUserWithMatchingPw(uuid, password)};
-  }
-
-  @Get(':email/:password')
-  async findUserWithEmailAndPw(@Param('email') email: string, @Param('password') password: string) {
-    return await this.recruiterService.findUserWithEmailAndPw(email, password);
   }
 
   @Patch(':uuid')

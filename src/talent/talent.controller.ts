@@ -24,19 +24,6 @@ export class TalentController {
     return this.talentService.findOne(uuid);
   }
 
-  /**
-   * Endpoint to be deleted. It's only for testing purpose.
-   */
-  @Get(':uuid/password/:password')
-  async findUserWithMatchingPw(@Param('uuid', new ParseUUIDPipe()) uuid: string, @Param('password') password: string) {
-    return { userFound: await this.talentService.findUserWithMatchingPw(uuid, password)};
-  }
-
-  @Get(':email/pw/:password')
-  async findUserWithEmailAndPw(@Param('email') email: string, @Param('password') password: string) {
-    return await this.talentService.findUserWithEmailAndPw(email, password);
-  }
-
   @Get(':uuid/skills')
   findSkillsForThisUser(@Param('uuid', new ParseUUIDPipe()) uuid: string){
     return this.talentService.findSkillsForThisUser(uuid);
