@@ -1,6 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export abstract class CreateUserDto{
+    @ApiHideProperty()
     id?: string;
     @ApiProperty({ example : 'johndoe@google.fr', required: true})
     email: string;
@@ -10,24 +11,26 @@ export abstract class CreateUserDto{
     first_name: string;
     @ApiProperty({ example : 'Doe', required: true})
     last_name: string;
-    @ApiProperty({ example : '0612345678', required: false})
+    @ApiPropertyOptional({ example : '0612345678'})
     phone?: string;
     @ApiProperty({ example : 'recruiter', required: true})
     role: 'recruiter' | 'talent';
+    @ApiHideProperty()
     created_at: string;
+    @ApiHideProperty()
     updated_at: string;
-    @ApiProperty({ example : 'France', required: false})
+    @ApiPropertyOptional({ example : 'France'})
     country?: string;
-    @ApiProperty({ example : 'Paris', required: false})
+    @ApiPropertyOptional({ example : 'Paris'})
     city?: string;
-    @ApiProperty({ example : 'GMT+1', required: false})
+    @ApiPropertyOptional({ example : 'GMT+1'})
     timezone?: string;
-    @ApiProperty({ example : 'French', required: false})
+    @ApiPropertyOptional({ example : 'French'})
     language?: string;
     @ApiProperty({ example : true, required: true})
     is_verified: boolean;
-    @ApiProperty({ example : '2024-12-31', required: false})
+    @ApiPropertyOptional({ example : '2024-12-31'})
     last_login?: string;
-    @ApiProperty({ example : 0, required: false})
+    @ApiPropertyOptional({ example : 0})
     failed_login_attempts?: number;
 }
